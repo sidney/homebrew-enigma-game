@@ -3,7 +3,7 @@ require "formula"
 class EnigmaGame < Formula
   homepage ""
   url "http://www.seymutor.de/enigma-1.21-beta.tar.gz"
-  sha1 "b678c98b42b78874c1df2b2d6323c6770e0babe0"
+  sha1 "f553c7cc3aad33c581f33243574325e1a9cd12ea"
 
   option "make-preview", "Generate and cache the level previews (slow)"
   option "make-gmo", "Generate the gmo files (default for --HEAD)"
@@ -17,7 +17,7 @@ class EnigmaGame < Formula
   depends_on "pkg-config" => :build
   depends_on "sdl" => :build
   depends_on "sdl_image" => :build
-  depends_on "sdl_mixer" => [:build, 'with-libvorbis']
+  depends_on "sdl_mixer" => [:build, 'with-libvorbis', 'with-libmikmod']
   depends_on "sdl_ttf" => :build
   depends_on "gettext" => :build
   depends_on "freetype" => :build
@@ -51,7 +51,7 @@ class EnigmaGame < Formula
     system "make"
     system "make", "macapp"
     if build.head? or build.include? "make-preview"
-      system "etc/macfiles/Enigma.app/Contents/MacOS//enigma", "--makepreview"
+      system "make", "macpreview"
     end
     system "make", "macdmg"
     share.install "etc/enigma.dmg"
