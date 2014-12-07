@@ -2,8 +2,8 @@ require "formula"
 
 class EnigmaGame < Formula
   homepage ""
-  url "http://downloads.sourceforge.net/project/enigma-game/Release%201.21-alpha/enigma-1.21-alpha.tar.gz"
-  sha1 "449f47971cf78e8165de1b3c582ee15426e35172"
+  url "http://www.seymutor.de/enigma-1.21-beta.tar.gz"
+  sha1 "b678c98b42b78874c1df2b2d6323c6770e0babe0"
 
   option "make-preview", "Generate and cache the level previews (slow)"
   option "make-gmo", "Generate the gmo files (default for --HEAD)"
@@ -12,13 +12,12 @@ class EnigmaGame < Formula
     url "http://svn.code.sf.net/p/enigma-game/source/trunk"
     depends_on "autoconf" => :build
     depends_on "automake" => :build
-    patch :p0, :DATA
   end
 
   depends_on "pkg-config" => :build
   depends_on "sdl" => :build
   depends_on "sdl_image" => :build
-  depends_on "sdl_mixer" => :build
+  depends_on "sdl_mixer" => [:build, 'with-libvorbis']
   depends_on "sdl_ttf" => :build
   depends_on "gettext" => :build
   depends_on "freetype" => :build
@@ -65,22 +64,3 @@ class EnigmaGame < Formula
     system "hdiutil detach -quiet /Volumes/Enigma"
   end
 end
-__END__
-Index: Makefile.am
-===================================================================
---- Makefile.am	(revision 2487)
-+++ Makefile.am	(working copy)
-@@ -29,8 +29,12 @@
- 
- .PHONY: macapp
- macapp:
--	cd src && $(MAKE) $(AM_MAKEFLAGS) bundle && $(MAKE) $(AM_MAKEFLAGS) bundle-fw && $(MAKE) $(AM_MAKEFLAGS) bundle-doc && $(MAKE) $(AM_MAKEFLAGS) bundle-dmg
-+	cd src && $(MAKE) $(AM_MAKEFLAGS) bundle && $(MAKE) $(AM_MAKEFLAGS) bundle-fw && $(MAKE) $(AM_MAKEFLAGS) bundle-doc
- 
-+.PHONY: macdmg
-+macdmg:
-+	cd src && $(MAKE) $(AM_MAKEFLAGS) bundle-dmg
-+
- .PHONY: pdf
- pdf:
- 	cd doc/manual/images && $(MAKE) pdf
